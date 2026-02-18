@@ -30,14 +30,15 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Copy application source
 COPY src/ ./src/
 
-# Copy startup script
+# Copy startup scripts
 COPY start.sh ./start.sh
-RUN chmod +x ./start.sh
+COPY start_server.py ./start_server.py
+RUN chmod +x ./start.sh ./start_server.py
 
 # Expose the API port (Railway will set PORT env var)
 # Railway automatically sets PORT environment variable
 EXPOSE 8000
 
-# Use startup script which properly handles PORT environment variable
+# Use Python startup script which properly handles PORT environment variable
 # Railway will use startCommand from railway.json, but this is a fallback
-CMD ["./start.sh"]
+CMD ["python", "start_server.py"]
