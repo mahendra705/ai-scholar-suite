@@ -57,6 +57,42 @@ python test_api_client.py
 
 Or call endpoints directly -- see [docs/api.md](docs/api.md) for the full reference.
 
+## Deployment
+
+### Deploy to Railway (Recommended - Free Tier Available)
+
+Railway supports Docker containers on their free tier (500 hours/month). Follow these guides:
+
+- **[RAILWAY_STEP_BY_STEP.md](RAILWAY_STEP_BY_STEP.md)** - Complete step-by-step instructions (start here!)
+- **[RAILWAY_QUICK_START.md](RAILWAY_QUICK_START.md)** - Quick reference guide
+- **[RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)** - Detailed deployment guide with troubleshooting
+
+**Quick Steps:**
+1. Push code to GitHub
+2. Create Railway account (free)
+3. Deploy from GitHub repo
+4. Add environment variables
+5. Get your public URL
+
+### Docker Support
+
+The project includes a production-ready Dockerfile:
+- Multi-stage build for optimized image size
+- Supports Railway, Render, Fly.io, and other Docker platforms
+- Automatically uses `PORT` environment variable
+
+```bash
+# Build locally
+docker build -t ai-scholar-suite .
+
+# Run locally
+docker run -p 8000:8000 \
+  -e GOOGLE_API_KEY=your-key \
+  -e CHROMADB_PATH=/app/chroma_data \
+  -e OUTPUT_DIR=/app/output \
+  ai-scholar-suite
+```
+
 ## Project Structure
 
 ```

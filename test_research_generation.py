@@ -19,7 +19,7 @@ from src.tools.outline_builder import OutlineBuilderTool
 from src.tools.pdf_writer import PDFWriterTool
 from src.tools.section_writer import SectionWriterTool
 from src.tools.web_search import WebSearchTool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 def print_section(title: str):
@@ -37,12 +37,12 @@ def main():
     settings = get_settings()
     
     # Verify API key is set
-    if not settings.openai_api_key:
-        print("ERROR: OPENAI_API_KEY not found in environment!")
+    if not settings.google_api_key:
+        print("ERROR: GOOGLE_API_KEY not found in environment!")
         print("Please ensure the .env file is properly configured.")
         sys.exit(1)
     
-    print(f"✓ OpenAI API key loaded (length: {len(settings.openai_api_key)})")
+    print(f"✓ Google API key loaded (length: {len(settings.google_api_key)})")
     print(f"✓ Model: {settings.llm_model}")
     print(f"✓ Output directory: {settings.output_dir}")
     
@@ -50,7 +50,7 @@ def main():
     os.makedirs(settings.output_dir, exist_ok=True)
     
     # Initialize LLM
-    llm = ChatOpenAI(model=settings.llm_model, temperature=0.3)
+    llm = ChatGoogleGenerativeAI(model=settings.llm_model, temperature=0.3)
     print(f"✓ LLM initialized")
     
     # Initialize paper state

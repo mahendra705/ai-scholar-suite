@@ -56,7 +56,7 @@ def main():
     uvicorn.run(
         "src.main:app",
         host=settings.api_host,
-        port=settings.api_port,
+        port=settings.get_port(),
         reload=True,
     )
 

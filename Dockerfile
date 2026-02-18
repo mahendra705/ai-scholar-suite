@@ -30,8 +30,10 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Copy application source
 COPY src/ ./src/
 
-# Expose the API port
+# Expose the API port (Railway will set PORT env var)
 EXPOSE 8000
 
-# Run the FastAPI server via uvicorn
-ENTRYPOINT ["uvicorn", "src.api.server:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use PORT environment variable if set, otherwise default to 8000
+# Railway automatically sets PORT environment variable
+# Use main.py app which includes full setup (ChromaDB, SessionManager, CORS)
+CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}

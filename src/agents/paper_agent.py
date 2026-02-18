@@ -4,10 +4,11 @@ import logging
 from typing import Any
 
 from langchain.agents import create_agent
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph.state import CompiledStateGraph
 
+from src.config import get_settings
 from src.core.state_manager import StateManager
 from src.models.schemas import PaperState
 from src.tools.arxiv_search import ArxivSearchTool
@@ -51,7 +52,12 @@ def create_paper_agent(
     Returns:
         Configured CompiledStateGraph agent with all tools, memory, and error handling.
     """
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3)
+    settings = get_settings()
+    llm = ChatGoogleGenerativeAI(
+        model=settings.llm_model,
+        temperature=0.3,
+        google_api_key=settings.google_api_key,
+    )
     tools = _create_tools(paper_state, vector_store, llm)
     checkpointer = MemorySaver()
 
