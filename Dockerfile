@@ -31,9 +31,10 @@ ENV PATH="/app/.venv/bin:$PATH"
 COPY src/ ./src/
 
 # Expose the API port (Railway will set PORT env var)
+# Railway automatically sets PORT environment variable
 EXPOSE 8000
 
-# Use PORT environment variable if set, otherwise default to 8000
-# Railway automatically sets PORT environment variable
+# Railway will use the startCommand from railway.json instead of CMD
+# This CMD is a fallback for local Docker runs
 # Use main.py app which includes full setup (ChromaDB, SessionManager, CORS)
-CMD uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}
+CMD ["sh", "-c", "uvicorn src.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

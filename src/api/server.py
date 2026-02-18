@@ -105,6 +105,20 @@ def create_app(session_manager: Optional[SessionManager] = None) -> FastAPI:
     # Endpoints
     # ------------------------------------------------------------------
 
+    @app.get("/")
+    def root():
+        """Root endpoint for health checks."""
+        return {
+            "status": "ok",
+            "message": "AI Research Paper Generator API is running",
+            "version": "0.1.0"
+        }
+
+    @app.get("/health")
+    def health():
+        """Health check endpoint."""
+        return {"status": "healthy"}
+
     @app.post("/api/v1/sessions", response_model=CreateSessionResponse, status_code=201)
     def create_session():
         try:
